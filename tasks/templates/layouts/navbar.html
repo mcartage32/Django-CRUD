@@ -10,10 +10,13 @@
             <li>
                 <a href="{% url 'index' %}"> Home</a>
             </li>
+            {% if user.is_authenticated %}
             <li>
                 <a href="{% url 'tasks' %}"> Task</a>
             </li>
-            {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'create-task' %}"> Create Task</a>
+            </li>
             <li>
                 <a href="{% url 'logout' %}"> Log Out</a>
             </li>

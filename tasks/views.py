@@ -1,22 +1,16 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-
 from tasks.models import Task
-from .forms import CreateTaskForm
+from .forms import CreateTaskForm, UpdateTaskForm
 # Create your views here.
 
 
 def index(request):
     return render(request, 'index.html')
 
-
-def tasks(request):
-
-    return render(request, 'tasks.html', {
-        'tasks': Task.objects.all()
-    })
+# REGISTRO
 
 
 def signup(request):
@@ -45,10 +39,7 @@ def signup(request):
                 "form": UserCreationForm
             })
 
-
-def signout(request):
-    logout(request)
-    return redirect('index')
+# LOGUEO
 
 
 def signin(request):
@@ -70,6 +61,19 @@ def signin(request):
             login(request, user)
             return redirect('tasks')
 
+# LOGOUT
+
+
+def signout(request):
+    logout(request)
+    return redirect('index')
+
+
+def tasks(request):
+    return render(request, 'tasks.html', {
+        'tasks': Task.objects.filter(user=request.user)
+    })
+
 
 def createtask(request):
     if request.method == "GET":
@@ -82,9 +86,31 @@ def createtask(request):
             auxForm = form.save(commit=False)
             auxForm.user = request.user
             auxForm.save()
-            return render(request, 'tasks.html')
+            return redirect('tasks')
         except:
             return render(request, 'create_task.html', {
                 'form': CreateTaskForm,
                 'error': 'Failed Insert Task'
+            })
+
+
+def taskdetail(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+
+    if request.method == "GET":
+        form = UpdateTaskForm(instance=task)
+        return render(request, 'task_detail.html', {
+            'task': task,
+            'form': form
+        })
+    else:
+        try:
+            form = UpdateTaskForm(request.POST, instance=task)
+            form.save()
+            return redirect('tasks')
+        except:
+            return render(request, 'task_detail.html', {
+                'task': task,
+                'form': form,
+                'error': 'Error updating task'
             })

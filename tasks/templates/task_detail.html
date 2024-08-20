@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
+    <title>Task Detail</title>
     {% extends 'layouts/navbar.html' %}
     {% block content %}
-    <h1>Tasks</h1>
+    <h1>Task Detail</h1>
+    {{ error }}
 </head>
 <body>
-    <ul>
-        {% for task in tasks %}
-         <li>
-            <a href="{% url 'task-detail' task.id %}">{{ task.tittle }}</a>
-         </li>
-        {% endfor %}
-    </ul>
+    <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Update">
     {% endblock %}  
+    </form>
 </body>
 </html>
