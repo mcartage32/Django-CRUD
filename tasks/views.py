@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from tasks.models import Task
 from .forms import CreateTaskForm, UpdateTaskForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -69,12 +70,14 @@ def signout(request):
     return redirect('index')
 
 
+@login_required
 def tasks(request):
     return render(request, 'tasks.html', {
         'tasks': Task.objects.filter(user=request.user)
     })
 
 
+@login_required
 def createtask(request):
     if request.method == "GET":
         return render(request, 'create_task.html', {
@@ -94,6 +97,7 @@ def createtask(request):
             })
 
 
+@login_required
 def taskdetail(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
 
