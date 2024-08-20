@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 
+from tasks.models import Task
+from .forms import CreateTaskForm
 # Create your views here.
 
 
@@ -11,7 +13,10 @@ def index(request):
 
 
 def tasks(request):
-    return render(request, 'tasks.html')
+
+    return render(request, 'tasks.html', {
+        'tasks': Task.objects.all()
+    })
 
 
 def signup(request):
@@ -64,3 +69,22 @@ def signin(request):
         else:
             login(request, user)
             return redirect('tasks')
+
+
+def createtask(request):
+    if request.method == "GET":
+        return render(request, 'create_task.html', {
+            'form': CreateTaskForm
+        })
+    else:
+        try:
+            form = CreateTaskForm(request.POST)
+            auxForm = form.save(commit=False)
+            auxForm.user = request.user
+            auxForm.save()
+            return render(request, 'tasks.html')
+        except:
+            return render(request, 'create_task.html', {
+                'form': CreateTaskForm,
+                'error': 'Failed Insert Task'
+            })

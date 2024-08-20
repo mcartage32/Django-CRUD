@@ -9,6 +9,15 @@
     <h1>Tasks</h1>
 </head>
 <body>
-    {%endblock%}  
+    <ul>
+        {% for task in tasks %}
+         <li>
+            <p>{{ task.tittle }}</p>
+            <p>{{ task.description }}</p>
+            <p>{{ task.user }}</p>
+         </li>
+        {% endfor %}
+    </ul>
+    {% endblock %}  
 </body>
 </html>
