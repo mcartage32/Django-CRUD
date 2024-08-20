@@ -7,10 +7,14 @@
     {% extends 'layouts/navbar.html' %}
     {% block content %}
     <h1>Login</h1>
+    {{ error }}
 </head>
 <body>
+    <br>
     <form action="" method="post">
         {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Login">
     </form>
     {% endblock %}
 </body>
