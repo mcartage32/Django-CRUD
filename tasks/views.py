@@ -96,6 +96,8 @@ def createtask(request):
                 'error': 'Failed Insert Task'
             })
 
+# Ver detalle y actualizar
+
 
 @login_required
 def taskdetail(request, task_id):
@@ -118,3 +120,11 @@ def taskdetail(request, task_id):
                 'form': form,
                 'error': 'Error updating task'
             })
+
+
+@login_required
+def deletetask(request, task_id):
+    task = get_object_or_404(Task, pk=task_id)
+    if request.method == "POST":
+        task.delete()
+        return redirect('tasks')
