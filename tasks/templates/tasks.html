@@ -33,9 +33,19 @@
                 data-bs-parent="#accordionFlushExample"
               >
                 <div class="accordion-body">
-                  Placeholder content for this accordion, which is intended to
-                  demonstrate the <code>.accordion-flush</code> class. This is
-                  the first item's accordion body.
+                  <p>Description: {{ task.description }}</p>
+                  <p>
+                    Is important?: {% if task.important %} ✅ {% else %} --->☢
+                    {% endif %}
+                  </p>
+                  <p>
+                    Date Completed: {% if task.datecompleted is None %} Not
+                    completed {% else %} {{task.datecompleted|date:'d-m-Y'}}
+                    {% endif %}
+                  </p>
+                  <div class="d-grid gap-2">
+                    <a href="{% url 'task-detail' task.id %}" class="btn btn-primary ">Edit Task</a>
+                  </div>
                 </div>
               </div>
             </div>
