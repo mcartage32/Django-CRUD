@@ -1,21 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tasks</title>
-    {% extends 'layouts/navbar.html' %}
-    {% block content %}
-    <h1>Tasks</h1>
-</head>
-<body>
-    <ul>
-        {% for task in tasks %}
-         <li>
-            <a href="{% url 'task-detail' task.id %}">{{ task.tittle }}</a>
-         </li>
-        {% endfor %}
-    </ul>
-    {% endblock %}  
-</body>
+    {% extends 'layouts/navbar.html' %} {% block content %}
+  </head>
+  <body>
+    <main class="container">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <h1 class="text-center">Tasks</h1>
+          <div class="accordion accordion-flush" id="accordionFlushExample">
+            {% for task in tasks %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="heading{{ task.id }}">
+                <button
+                  class="accordion-button collapsed"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#collapse{{ task.id }}"
+                  aria-expanded="false"
+                  aria-controls="collapse{{ task.id }}"
+                >
+                  Title: {{ task.title }}
+                </button>
+              </h2>
+              <div
+                id="collapse{{ task.id }}"
+                class="accordion-collapse collapse"
+                aria-labelledby="heading{{ task.id }}"
+                data-bs-parent="#accordionFlushExample"
+              >
+                <div class="accordion-body">
+                  Placeholder content for this accordion, which is intended to
+                  demonstrate the <code>.accordion-flush</code> class. This is
+                  the first item's accordion body.
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </main>
+    {% endblock %}
+  </body>
 </html>

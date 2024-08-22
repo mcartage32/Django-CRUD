@@ -6,13 +6,13 @@ from .models import Task
 class CreateTaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = ['tittle', 'description', 'important']
+        fields = ['title', 'description', 'important']
 
 
 class UpdateTaskForm(ModelForm):
     class Meta:
         model = Task
-        fields = ['tittle', 'description', 'datecompleted', 'important']
+        fields = ['title', 'description', 'datecompleted', 'important']
         widgets = {
             'datecompleted': forms.DateInput(attrs={'type': 'date'})
         }

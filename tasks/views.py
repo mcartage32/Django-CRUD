@@ -45,7 +45,7 @@ def signup(request):
 
 def signin(request):
     if request.method == "GET":
-        return render(request, 'signin.html', {
+        return render(request, 'login.html', {
             'form': AuthenticationForm
         })
     else:
@@ -54,7 +54,7 @@ def signin(request):
                             password=request.POST['password']
                             )
         if user is None:
-            return render(request, 'signin.html', {
+            return render(request, 'login.html', {
                 'form': AuthenticationForm,
                 'error': "User or password incorrect"
             })
